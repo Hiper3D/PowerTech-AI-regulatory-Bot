@@ -1,0 +1,95 @@
+<!-- ============================================= -->
+<!-- POWER TECH AI WIDGET START -->
+<!-- Instructions: Paste this code before the closing </body> tag in your base.html -->
+<!-- ============================================= -->
+
+<div id="ptc-ai-widget" style="font-family: 'Segoe UI', sans-serif;">
+    
+    <!-- 1. Floating Button -->
+    <button onclick="togglePTCChat()" style="
+        position: fixed; bottom: 20px; right: 20px; z-index: 10000;
+        width: 60px; height: 60px; border-radius: 50%; border: none;
+        background: #003366; color: white; font-size: 28px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3); cursor: pointer;
+        transition: transform 0.2s;">
+        💬
+    </button>
+
+    <!-- 2. Chat Window -->
+    <div id="ptc-chat-window" style="
+        display: none; position: fixed; bottom: 90px; right: 20px; z-index: 10000;
+        width: 360px; height: 500px; background: white; border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.2); overflow: hidden;
+        flex-direction: column; border: 1px solid #e0e0e0;">
+        
+        <!-- Header -->
+        <div style="background: #003366; color: white; padding: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+            <span>Regulatory Assistant</span>
+            <span onclick="togglePTCChat()" style="cursor: pointer; font-size: 20px;">&times;</span>
+        </div>
+
+        <!-- Messages -->
+        <div id="ptc-messages" style="flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9;">
+            <div style="background: #e9ecef; padding: 10px 15px; border-radius: 15px; border-bottom-left-radius: 2px; margin-bottom: 10px; font-size: 14px; color: #333; max-width: 85%;">
+                Hello! I am trained on OERC Tariff Orders. Ask me about compliance, rates, or regulations.
+            </div>
+        </div>
+
+        <!-- Input -->
+        <div style="padding: 15px; background: white; border-top: 1px solid #eee; display: flex;">
+            <input type="text" id="ptc-input" placeholder="Ask a question..." 
+                style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; font-size: 14px;"
+                onkeypress="handlePTCEnter(event)">
+            <button onclick="askPTC()" style="background: #003366; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; margin-left: 10px; cursor: pointer;">➤</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ⚠️ CONFIGURATION: Replace with your actual Backend URL
+    // If running locally, keep as is. If deployed, use the cloud URL.
+    const PTC_API_URL = "http://127.0.0.1:8000/ask";
+
+    function togglePTCChat() {
+        const win = document.getElementById('ptc-chat-window');
+        win.style.display = win.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    async function askPTC() {
+        const input = document.getElementById('ptc-input');
+        const msgBox = document.getElementById('ptc-messages');
+        const text = input.value.trim();
+        
+        if (!text) return;
+
+        // User Message
+        msgBox.innerHTML += `<div style="display: flex; justify-content: flex-end; margin-bottom: 10px;"><div style="background: #003366; color: white; padding: 10px 15px; border-radius: 15px; border-bottom-right-radius: 2px; font-size: 14px; max-width: 85%;">${text}</div></div>`;
+        input.value = "";
+        msgBox.scrollTop = msgBox.scrollHeight;
+
+        // Loading Bubble
+        const loadingId = "load-" + Date.now();
+        msgBox.innerHTML += `<div id="${loadingId}" style="margin-bottom: 10px;"><div style="background: #e9ecef; color: #666; padding: 8px 15px; border-radius: 15px; font-size: 13px; font-style: italic; display: inline-block;">Thinking...</div></div>`;
+        msgBox.scrollTop = msgBox.scrollHeight;
+
+        try {
+            const res = await fetch(PTC_API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question: text })
+            });
+            const data = await res.json();
+            
+            document.getElementById(loadingId).remove();
+            msgBox.innerHTML += `<div style="margin-bottom: 10px;"><div style="background: #e9ecef; color: #333; padding: 10px 15px; border-radius: 15px; border-bottom-left-radius: 2px; font-size: 14px; max-width: 85%; line-height: 1.4;">${data.answer}</div></div>`;
+        } catch (e) {
+            document.getElementById(loadingId).innerText = "Error: AI Service Offline";
+        }
+        msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
+    function handlePTCEnter(e) { if (e.key === 'Enter') askPTC(); }
+</script>
+<!-- POWER TECH AI WIDGET END -->
+
+
