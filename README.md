@@ -1,3 +1,4 @@
+## AI-Regulatory-Bot
 Power Tech AI - Developer Setup Guide
 This package contains the Regulatory AI Backend. It is a self-contained Python application that uses OpenAI GPT-4o and Vector Search (FAISS) to answer domain-specific questions.
 🚀 Step 1: Install & Setup (Do this once)
