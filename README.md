@@ -1,50 +1,26 @@
-## AI-Regulatory-Bot
-Power Tech AI - Developer Setup Guide
-This package contains the Regulatory AI Backend. It is a self-contained Python application that uses OpenAI GPT-4o and Vector Search (FAISS) to answer domain-specific questions.
-🚀 Step 1: Install & Setup (Do this once)
- 1,Extract Files: Unzip this folder on your laptop.
- 2,Open Terminal: Open Command Prompt (Windows) or Terminal (Mac) inside this folder.
- 3,Install Libraries: Run the following command:
+# 🤖 Enterprise AI Regulatory Agent
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![FAISS](https://img.shields.io/badge/FAISS-0467DF?style=for-the-badge)
+
+## 📌 Executive Overview
+This package houses the backend source code for an enterprise-grade AI (Artificial Intelligence - the simulation of human intelligence by machines) regulatory agent engineered for Power Tech Consultant. 
+
+Utilizing a robust RAG (Retrieval-Augmented Generation - an AI framework that retrieves facts from an external knowledge base to ground large language models) architecture, this self-contained Python application leverages OpenAI's GPT-4o (Generative Pre-trained Transformer - a type of large language model designed to generate human-like text) and FAISS (Facebook AI Similarity Search - a library for efficient similarity search and clustering of dense vectors) to autonomously ingest, vectorize, and answer highly domain-specific regulatory and tariff inquiries.
+
+## 🏗️ Core Architecture & Capabilities
+
+
+
+* **Vector Search Engine:** Implemented FAISS (Facebook AI Similarity Search - a library for efficient similarity search and clustering of dense vectors) to efficiently index and retrieve contextual embeddings from complex regulatory documents.
+* **Persistent Data Ingestion:** Provisioned an administrative endpoint to seamlessly ingest PDF (Portable Document Format - a file format used to present and exchange documents reliably) files. Extracted text is vectorized and persistently stored, eliminating the need for redundant training cycles upon server reboot.
+* **Decoupled Integration:** Engineered to support both a lightweight frontend HTML (HyperText Markup Language - the standard code used to structure a web page) widget and secure server-to-server endpoints for enterprise systems like a CRM (Customer Relationship Management - a technology for managing all your company's relationships and interactions with customers) or ERP (Enterprise Resource Planning - a type of software that organizations use to manage day-to-day business activities).
+
+## ⚙️ Environment Provisioning & Initialization
+
+### 1. Dependency Installation
+Extract the repository architecture and initialize the environment via your local CLI (Command Line Interface - a text-based interface for running commands):
+```bash
 pip install -r requirements.txt
-
-4,Add API Key:
-Create a new file named .env (no name, just dot env).
-Open it and paste your company OpenAI Key:
-<!-- end list -->
-OPENAI_API_KEY=sk-proj-YOUR-REAL-KEY-HERE
-
-🏃 Step 2: Run the Server
-Run this command in your terminal:
-uvicorn main:app --reload 
-
-You should see: Uvicorn running on http://0.0.0.0:8000.
-Keep this terminal open! This is the brain of the AI.
-
-📚 Step 3: Train the AI (Upload PDFs)
-Open your browser and go to: http://127.0.0.1:8000/admin
-Click Select PDF and choose a Tariff Order or Regulation file.
-Click Upload & Train.
-Wait for the success message.
-
-The AI has now "learned" that document. You don't need to re-upload it even if you restart the server.
- 
-🌐 Step 4: Integrate with Website
-Open the file widget.html included in this package.
-Copy the entire code block.
-Open your website's main template file (e.g., base.html in Django/Flask).
-Paste the code just before the closing </body> tag.
-Refresh your website. You will see the Blue Chat Bubble in the corner.
-
-🔗 API Documentation (For Backend Integration)
-If you prefer to connect via Python code instead of the widget:
-Endpoint: POST http://127.0.0.1
-
-Server-to-Server API (Backend Integration) (Professional / Enterprise)
-Advantages
-More secure
-Full control over logic & responses
-Can integrate with internal systems (CRM, ERP, Billing)
-No UI dependency
-Disadvantages
-Requires backend development
-Slightly more setup time
